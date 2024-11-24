@@ -3,14 +3,14 @@
     partial class Form1
     {
         /// <summary>
-        /// Обязательная переменная конструктора.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Освободить все используемые ресурсы.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,21 +20,70 @@
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.txtFormula = new System.Windows.Forms.TextBox();
+            this.btnPlot = new System.Windows.Forms.Button();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // txtFormula
+            // 
+            this.txtFormula.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtFormula.Location = new System.Drawing.Point(10, 10);
+            this.txtFormula.Multiline = true;
+            this.txtFormula.Name = "txtFormula";
+            this.txtFormula.Size = new System.Drawing.Size(566, 34);
+            this.txtFormula.TabIndex = 0;
+            this.txtFormula.Text = "2+2*2";
+            // 
+            // btnPlot
+            // 
+            this.btnPlot.Location = new System.Drawing.Point(582, 10);
+            this.btnPlot.Name = "btnPlot";
+            this.btnPlot.Size = new System.Drawing.Size(246, 34);
+            this.btnPlot.TabIndex = 1;
+            this.btnPlot.Text = "Draw";
+            this.btnPlot.UseVisualStyleBackColor = true;
+            this.btnPlot.Click += new System.EventHandler(this.btnPlot_Click);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox.Location = new System.Drawing.Point(10, 50);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(818, 500);
+            this.pictureBox.TabIndex = 2;
+            this.pictureBox.TabStop = false;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(837, 709);
+            this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.btnPlot);
+            this.Controls.Add(this.txtFormula);
+            this.Name = "Form1";
+            this.Text = "Создание графиков";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox txtFormula;
+        private System.Windows.Forms.Button btnPlot;
+        private System.Windows.Forms.PictureBox pictureBox;
     }
 }
-
