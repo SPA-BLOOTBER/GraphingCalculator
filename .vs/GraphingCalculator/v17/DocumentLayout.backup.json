@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{19C1F4E3-966A-4BE0-9436-02A53E98A117}|GraphingCalculator.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{19C1F4E3-966A-4BE0-9436-02A53E98A117}|GraphingCalculator.csproj|c:\\cssharp\\graphingcalculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{19C1F4E3-966A-4BE0-9436-02A53E98A117}|GraphingCalculator.csproj|C:\\CsSharp\\GraphingCalculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{19C1F4E3-966A-4BE0-9436-02A53E98A117}|GraphingCalculator.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -40,7 +40,7 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "C:\\CsSharp\\GraphingCalculator\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAADwvz0AAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-24T17:13:51.032Z",
               "EditorCaption": ""

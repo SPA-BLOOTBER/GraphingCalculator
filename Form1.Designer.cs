@@ -36,6 +36,7 @@
             // 
             // txtFormula
             // 
+            this.txtFormula.BackColor = System.Drawing.Color.YellowGreen;
             this.txtFormula.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtFormula.Location = new System.Drawing.Point(10, 10);
             this.txtFormula.Multiline = true;
@@ -46,16 +47,19 @@
             // 
             // btnPlot
             // 
+            this.btnPlot.BackColor = System.Drawing.Color.Chocolate;
+            this.btnPlot.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnPlot.Location = new System.Drawing.Point(582, 10);
             this.btnPlot.Name = "btnPlot";
             this.btnPlot.Size = new System.Drawing.Size(246, 34);
             this.btnPlot.TabIndex = 1;
-            this.btnPlot.Text = "Draw";
-            this.btnPlot.UseVisualStyleBackColor = true;
+            this.btnPlot.Text = "Нарисовать";
+            this.btnPlot.UseVisualStyleBackColor = false;
             this.btnPlot.Click += new System.EventHandler(this.btnPlot_Click);
             // 
             // pictureBox
             // 
+            this.pictureBox.BackColor = System.Drawing.Color.White;
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(10, 50);
             this.pictureBox.Name = "pictureBox";
@@ -67,7 +71,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(837, 709);
+            this.ClientSize = new System.Drawing.Size(837, 724);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.btnPlot);
             this.Controls.Add(this.txtFormula);
