@@ -1,10 +1,4 @@
-﻿//Примеры уравнений для построения графкиов
-/*
- *
-*/
-
-
-using System;
+﻿using System;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -20,6 +14,31 @@ namespace GraphingCalculator
         double scale = 10;
         private bool isDragging = false;
         private Point dragStartPoint;
+        private Random randomFormula = new Random();
+        private string[] randomtxtFormulaWords =
+        {
+            "x+5",
+            "x-3",
+            "2*x",
+            "x/2",
+            "x*x",
+            "x*x-4",
+            "(x+2)*(x-2)",
+            "1/x",
+            "x*x+2*x+1",
+            "x-x/2",
+            "x+3*x-7",
+            "5-x*x",
+            "3*x-2",
+            "(x+1)/(x-1)",
+            "(x-3)*(x+3)",
+            "x*x*x",
+            "2*x-5",
+            "x/(x+1)",
+            "x*x+y*y-1",
+            "x*x-y*y"
+        };
+
 
         public Form1()
         {
@@ -28,22 +47,16 @@ namespace GraphingCalculator
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var panelButtons = new Panel 
-            {
-                Left = 10,
-                Top = 560,
-                Width = 950,
-                Height = 100,
-                AutoScroll = true
-            };
-            this.Controls.Add(panelButtons);
-
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             AddCalculatorButtons(panelButtons, txtFormula);
+
+            txtFormula.Text = randomtxtFormulaWords[randomFormula.Next(randomtxtFormulaWords.Length)]; //Рандомная формула
 
             this.MouseWheel += Form1_MouseWheel;
 
             var pictureBox = this.Controls["pictureBox"] as PictureBox;
-            if (pictureBox != null) {
+            if (pictureBox != null)
+            {
                 pictureBox.MouseEnter += (btnSender, args) => Cursor = Cursors.Hand;
                 pictureBox.MouseLeave += (btnSender, args) => Cursor = Cursors.Default;
 
@@ -55,7 +68,8 @@ namespace GraphingCalculator
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle) {
+            if (e.Button == MouseButtons.Middle)
+            {
                 isDragging = true;
                 dragStartPoint = e.Location;
                 Cursor = Cursors.SizeAll;
@@ -64,7 +78,8 @@ namespace GraphingCalculator
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDragging) {
+            if (isDragging)
+            {
                 offsetX += (e.X - dragStartPoint.X) / scale;
                 offsetY -= (e.Y - dragStartPoint.Y) / scale;
                 dragStartPoint = e.Location;
@@ -75,17 +90,27 @@ namespace GraphingCalculator
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle) {
+            if (e.Button == MouseButtons.Middle)
+            {
                 isDragging = false;
                 Cursor = Cursors.Hand;
             }
         }
-
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
         {
+            double oldScale = scale;
             scale *= e.Delta > 0 ? 1.1 : 0.9;
+
+            // Центрирование масштаба вокруг курсора
+            double cursorX = (e.X - this.Controls["pictureBox"].Width / 2) / oldScale - offsetX;
+            double cursorY = (this.Controls["pictureBox"].Height / 2 - e.Y) / oldScale - offsetY;
+
+            offsetX = cursorX - (e.X - this.Controls["pictureBox"].Width / 2) / scale;
+            offsetY = cursorY - (this.Controls["pictureBox"].Height / 2 - e.Y) / scale;
+
             DrawGraph(txtFormula.Text);
         }
+
 
         private void AddCalculatorButtons(Panel panel, TextBox txtFormula)
         {
@@ -102,7 +127,8 @@ namespace GraphingCalculator
             int buttonHeight = 50;
             int margin = 6;
 
-            for (int i = 0; i < buttons.Length; i++) {
+            for (int i = 0; i < buttons.Length; i++)
+            {
                 var btn = new Button
                 {
                     Text = buttons[i],
@@ -115,7 +141,8 @@ namespace GraphingCalculator
                 btn.Click += (btnSender, args) =>
                 {
                     var button = btnSender as Button;
-                    if (button != null) {
+                    if (button != null)
+                    {
                         if (button.Text == "C")
                             txtFormula.Text = "";
                         else
@@ -135,20 +162,20 @@ namespace GraphingCalculator
                 if (pictureBox == null) return;
 
                 var bitmap = new Bitmap(pictureBox.Width, pictureBox.Height);
-                using (var g = Graphics.FromImage(bitmap)) {
+                using (var g = Graphics.FromImage(bitmap))
+                {
                     g.Clear(Color.White);
 
                     var centerX = pictureBox.Width / 2;
                     var centerY = pictureBox.Height / 2;
 
-                    g.DrawLine(Pens.Black, 0, centerY, pictureBox.Width, centerY);
-                    g.DrawLine(Pens.Black, centerX, 0, centerX, pictureBox.Height);
+                    DrawGrid(g, centerX, centerY, pictureBox.Width, pictureBox.Height);
 
-                    g.DrawLine(Pens.Red, centerX + (int)(0 * scale), centerY, centerX + (int)(1 * scale), centerY);
+                    g.DrawLine(Pens.Black, 0, centerY, pictureBox.Width, centerY); // Ось X
+                    g.DrawLine(Pens.Black, centerX, 0, centerX, pictureBox.Height); // Ось Y
 
-                    g.DrawString("1", new Font("Arial", 10), Brushes.Red, centerX + 10, centerY - 10);
-
-                    for (int xPixel = 0; xPixel < pictureBox.Width; xPixel++) {
+                    for (int xPixel = 0; xPixel < pictureBox.Width; xPixel++)
+                    {
                         double x = (xPixel - centerX) / scale - offsetX;
                         double y = EvaluateFormula(formula, x, offsetY);
 
@@ -161,15 +188,51 @@ namespace GraphingCalculator
 
                 pictureBox.Image = bitmap;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private double EvaluateFormula(string formula, double x, double y)
+        private void DrawGrid(Graphics g, int centerX, int centerY, int width, int height)
         {
-            try
-            {
+            Pen gridPen = new Pen(Color.LightGray, 1);
+            Pen boldGridPen = new Pen(Color.Gray, 1);
+
+            double gridStep = scale;
+
+            for (double x = -offsetX * scale; x < width; x += gridStep) {
+                int xPixel = (int)(centerX + x);
+                g.DrawLine(gridPen, xPixel, 0, xPixel, height);
+            }
+            for (double x = -offsetX * scale - gridStep; x > -width; x -= gridStep){
+                int xPixel = (int)(centerX + x);
+                g.DrawLine(gridPen, xPixel, 0, xPixel, height);
+            }
+
+            for (double y = offsetY * scale; y < height; y += gridStep) {
+                int yPixel = (int)(centerY - y);
+                g.DrawLine(gridPen, 0, yPixel, width, yPixel);
+            }
+            for (double y = offsetY * scale - gridStep; y > -height; y -= gridStep) {
+                int yPixel = (int)(centerY - y);
+                g.DrawLine(gridPen, 0, yPixel, width, yPixel);
+            }
+
+            for (double x = -offsetX; x < width / scale; x += 1) {
+                int xPixel = (int)(centerX + x * scale);
+                g.DrawString(x.ToString("0"), new Font("Arial", 8), Brushes.Gray, xPixel + 2, centerY + 2);
+            }
+            for (double y = -offsetY; y < height / scale; y += 1) {
+                int yPixel = (int)(centerY - y * scale);
+                g.DrawString(y.ToString("0"), new Font("Arial", 8), Brushes.Gray, centerX + 2, yPixel - 10);
+            }
+        }
+
+
+
+        private double EvaluateFormula(string formula, double x, double y) {
+            try {
                 formula = formula.Replace("x", $"({x.ToString(System.Globalization.CultureInfo.InvariantCulture)})")
                                  .Replace("y", $"({y.ToString(System.Globalization.CultureInfo.InvariantCulture)})");
 
@@ -202,8 +265,7 @@ namespace GraphingCalculator
         private string HandlePowerOperator(string formula)
         {
             int index;
-            while ((index = formula.IndexOf("^")) >= 0)
-            {
+            while ((index = formula.IndexOf("^")) >= 0) {
                 int baseStart = index - 1;
                 while (baseStart >= 0 && (char.IsDigit(formula[baseStart]) || formula[baseStart] == ')'))
                     baseStart--;
@@ -228,5 +290,41 @@ namespace GraphingCalculator
         {
             DrawGraph(txtFormula.Text);
         }
+
+        private void SaveGraph_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var pictureBox = this.Controls["pictureBox"] as PictureBox;
+                if (pictureBox == null || pictureBox.Image == null) {
+                    MessageBox.Show("График отсутствует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (var saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
+                    saveFileDialog.Title = "Сохранить график";
+                    saveFileDialog.FileName = "Graph.png";
+
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                        var filePath = saveFileDialog.FileName;
+                        var format = System.Drawing.Imaging.ImageFormat.Png;
+
+                        if (filePath.EndsWith(".jpg"))
+                            format = System.Drawing.Imaging.ImageFormat.Jpeg;
+                        else if (filePath.EndsWith(".bmp"))
+                            format = System.Drawing.Imaging.ImageFormat.Bmp;
+
+                        pictureBox.Image.Save(filePath, format);
+                        MessageBox.Show("График успешно сохранён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
