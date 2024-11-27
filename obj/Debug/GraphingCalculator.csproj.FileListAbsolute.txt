@@ -68,3 +68,6 @@ C:\CsSharp\GraphingCalculator\obj\Debug\GraphingCalculator.csproj.CoreCompileInp
 C:\CsSharp\GraphingCalculator\obj\Debug\Graphing.001134C3.Up2Date
 C:\CsSharp\GraphingCalculator\obj\Debug\GraphingCalculator.exe
 C:\CsSharp\GraphingCalculator\obj\Debug\GraphingCalculator.pdb
+C:\CsSharp\GraphingCalculator\bin\Debug\System.Linq.Dynamic.Core.dll
+C:\CsSharp\GraphingCalculator\bin\Debug\System.Linq.Dynamic.Core.pdb
+C:\CsSharp\GraphingCalculator\bin\Debug\System.Linq.Dynamic.Core.xml

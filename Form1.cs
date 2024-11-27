@@ -36,9 +36,20 @@ namespace GraphingCalculator
             "2*x-5",
             "x/(x+1)",
             "x*x+y*y-1",
-            "x*x-y*y"
+            "x+5",
+            "sin(x)",
+            "x^2",
+            "Math.Tan(x) + Math.Sqrt(1 + Math.Pow(x, 2))",
+            "Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2))",
+            "y = Math.Sqrt(1 - x^2)",
+            "Math.Sin(x) + Math.Pow(x, 2)",
+            "1/x",
+            "x^2+2*x+1",
+            "5-x^2",
+            "x^3",
+            "2*x-5",
+            "x/(x+1)"
         };
-
 
         public Form1()
         {
@@ -50,7 +61,7 @@ namespace GraphingCalculator
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             AddCalculatorButtons(panelButtons, txtFormula);
 
-            txtFormula.Text = randomtxtFormulaWords[randomFormula.Next(randomtxtFormulaWords.Length)]; //Рандомная формула
+            txtFormula.Text = randomtxtFormulaWords[randomFormula.Next(randomtxtFormulaWords.Length)];
 
             this.MouseWheel += Form1_MouseWheel;
 
@@ -96,12 +107,12 @@ namespace GraphingCalculator
                 Cursor = Cursors.Hand;
             }
         }
+
         private void Form1_MouseWheel(object sender, MouseEventArgs e)
         {
             double oldScale = scale;
             scale *= e.Delta > 0 ? 1.1 : 0.9;
 
-            // Центрирование масштаба вокруг курсора
             double cursorX = (e.X - this.Controls["pictureBox"].Width / 2) / oldScale - offsetX;
             double cursorY = (this.Controls["pictureBox"].Height / 2 - e.Y) / oldScale - offsetY;
 
@@ -111,7 +122,6 @@ namespace GraphingCalculator
             DrawGraph(txtFormula.Text);
         }
 
-
         private void AddCalculatorButtons(Panel panel, TextBox txtFormula)
         {
             string[] buttons = {
@@ -119,8 +129,8 @@ namespace GraphingCalculator
                 "5", "6", "7", "8",
                 "9", "0", "+", "-",
                 "*", "/", "x", "y",
-                "(", ")", "sin", "cos",
-                "tan", "sqrt", "^", "C"
+                "(", ")", "Math.Sin( )", "Math.Cos( )",
+                "Math.Tan( )", "Math.Sqrt( )", "^", "C"
             };
 
             int buttonWidth = 50;
@@ -201,38 +211,44 @@ namespace GraphingCalculator
 
             double gridStep = scale;
 
-            for (double x = -offsetX * scale; x < width; x += gridStep) {
+            for (double x = -offsetX * scale; x < width; x += gridStep)
+            {
                 int xPixel = (int)(centerX + x);
                 g.DrawLine(gridPen, xPixel, 0, xPixel, height);
             }
-            for (double x = -offsetX * scale - gridStep; x > -width; x -= gridStep){
+            for (double x = -offsetX * scale - gridStep; x > -width; x -= gridStep)
+            {
                 int xPixel = (int)(centerX + x);
                 g.DrawLine(gridPen, xPixel, 0, xPixel, height);
             }
 
-            for (double y = offsetY * scale; y < height; y += gridStep) {
+            for (double y = offsetY * scale; y < height; y += gridStep)
+            {
                 int yPixel = (int)(centerY - y);
                 g.DrawLine(gridPen, 0, yPixel, width, yPixel);
             }
-            for (double y = offsetY * scale - gridStep; y > -height; y -= gridStep) {
+            for (double y = offsetY * scale - gridStep; y > -height; y -= gridStep)
+            {
                 int yPixel = (int)(centerY - y);
                 g.DrawLine(gridPen, 0, yPixel, width, yPixel);
             }
 
-            for (double x = -offsetX; x < width / scale; x += 1) {
+            for (double x = -offsetX; x < width / scale; x += 1)
+            {
                 int xPixel = (int)(centerX + x * scale);
                 g.DrawString(x.ToString("0"), new Font("Arial", 8), Brushes.Gray, xPixel + 2, centerY + 2);
             }
-            for (double y = -offsetY; y < height / scale; y += 1) {
+            for (double y = -offsetY; y < height / scale; y += 1)
+            {
                 int yPixel = (int)(centerY - y * scale);
                 g.DrawString(y.ToString("0"), new Font("Arial", 8), Brushes.Gray, centerX + 2, yPixel - 10);
             }
         }
 
-
-
-        private double EvaluateFormula(string formula, double x, double y) {
-            try {
+        private double EvaluateFormula(string formula, double x, double y)
+        {
+            try
+            {
                 formula = formula.Replace("x", $"({x.ToString(System.Globalization.CultureInfo.InvariantCulture)})")
                                  .Replace("y", $"({y.ToString(System.Globalization.CultureInfo.InvariantCulture)})");
 
@@ -257,7 +273,8 @@ namespace GraphingCalculator
 
                 return Convert.ToDouble(row["expression"]);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new Exception($"Ошибка в формуле: {ex.Message}");
             }
         }
@@ -265,7 +282,8 @@ namespace GraphingCalculator
         private string HandlePowerOperator(string formula)
         {
             int index;
-            while ((index = formula.IndexOf("^")) >= 0) {
+            while ((index = formula.IndexOf("^")) >= 0)
+            {
                 int baseStart = index - 1;
                 while (baseStart >= 0 && (char.IsDigit(formula[baseStart]) || formula[baseStart] == ')'))
                     baseStart--;
@@ -285,7 +303,6 @@ namespace GraphingCalculator
             return formula;
         }
 
-
         private void btnPlot_Click(object sender, EventArgs e)
         {
             DrawGraph(txtFormula.Text);
@@ -296,7 +313,8 @@ namespace GraphingCalculator
             try
             {
                 var pictureBox = this.Controls["pictureBox"] as PictureBox;
-                if (pictureBox == null || pictureBox.Image == null) {
+                if (pictureBox == null || pictureBox.Image == null)
+                {
                     MessageBox.Show("График отсутствует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -307,7 +325,8 @@ namespace GraphingCalculator
                     saveFileDialog.Title = "Сохранить график";
                     saveFileDialog.FileName = "Graph.png";
 
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
                         var filePath = saveFileDialog.FileName;
                         var format = System.Drawing.Imaging.ImageFormat.Png;
 
@@ -321,10 +340,10 @@ namespace GraphingCalculator
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }
