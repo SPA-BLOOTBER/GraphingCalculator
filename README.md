@@ -58,12 +58,3 @@ _Укажите здесь инструкции по запуску прилож
 3. Внесите изменения и сделайте commit: `git commit -am 'Add new feature'`
 4. Отправьте ветку: `git push origin feature/your-feature`
 5. Откройте pull-request.
-
-## Лицензия
-
-Лицензия MIT.
-
-## Контакты
-
-- Автор: [ReNothingg](https://github.com/ReNothingg)
-- Вопросы и предложения: создавайте issue или пишите в обсуждениях репозитория.
